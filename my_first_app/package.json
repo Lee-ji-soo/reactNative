@@ -7,9 +7,14 @@
     "ios": "react-native run-ios",
     "start": "react-native start",
     "test": "jest",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "postinstall": "patch-package"
   },
   "dependencies": {
+    "@react-native-community/slider": "^3.0.3",
+    "@react-native-picker/picker": "^1.15.0",
+    "patch-package": "^6.4.7",
+    "postinstall-postinstall": "^2.1.0",
     "react": "16.9.0",
     "react-native": "0.61.5"
   },
