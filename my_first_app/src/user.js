@@ -23,7 +23,7 @@ class UserScreen extends Component {
         },
         headerBackTitle: "BACK",
         headerRight: () => (
-          <Button 
+          <Button
             title= "go home"
             onPress= {()=>{this.props.navigation.navigate("Home")}}
             color= "white"

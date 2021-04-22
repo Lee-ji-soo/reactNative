@@ -7,65 +7,80 @@
  */
 import 'react-native-gesture-handler';
 import React,{ Component } from 'react';
-import { StyleSheet, Image, Button} from "react-native";
+import { StyleSheet, Image, Linking} from "react-native";
 import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from "@react-navigation/stack";
-import HomeScreen from "./src/home";
-import UserScreen from "./src/user";
+import { 
+  createDrawerNavigator,
+  DrawerContentScrollView,
+  DrawerItemList,
+  DrawerItem
+} from "@react-navigation/drawer";
+import DrawerHomeScreen from "./src/home_drawer";
+import DrawerUserScreen from "./src/user_drawer";
 import LogoTitle from "./src/logo";
+import PictogramHome from "./src/assets/pics/homeIcon.png";
+import SlideDrawer from "./src/my_drawer";
 
-const Stack = createStackNavigator();
+const Drawer = createDrawerNavigator();
+
+CustomDrawerContent = (props) => {
+  return(
+    <DrawerContentScrollView {...props}>
+      <DrawerItemList {...props}/>
+      <DrawerItem
+        label="Help"
+        onPress={()=>Linking.openURL("http://www.google.com")}
+      />
+       <DrawerItem
+        label="Info"
+        onPress={()=>alert("info")}
+      />
+    </DrawerContentScrollView>
+  )
+} 
 class App extends Component {
+
   render(){
     return (
       <NavigationContainer>
-        <Stack.Navigator
+        <Drawer.Navigator
           initialRouteName="Home"
-          screenOptions={{ // 모든 스크린에 적용
-            headerStyle:{
-              backgroundColor: "#dbdbdb",
-            },
-            headerTitleStyle:{
-              fontWeight: "bold",
-              color: "#111"
-            },
-            headerTintColor: "white",
-           }}
+          drawerType="front"
+          drawerPosition="left" 
+          drawerStyle={{
+            backgroundColor: "#c6cbef",
+            width: 200,
+          }}
+          drawerContentOptions={{
+            activeTintColor: "blue",
+            activeBackgroundColor: "skyblue"
+          }}
+          drawerContent={(props)=><SlideDrawer {...props}/>}
+          // drawerContent={(props)=><CustomDrawerContent {...props}/>}
+          // drawerContent={(props)=><CustomDrawerContent {...props}/>}
+          // drawerType="slide"
+          // drawerType="permanent"
         >
-          <Stack.Screen 
+          <Drawer.Screen
             name="Home"
-            component={HomeScreen}
+            component={DrawerHomeScreen}
             options={{
-              title: "Home Screen",
-              headerTitle: <LogoTitle/>,
-              headerRight: () => (
-              <Button 
-                title= "info"
-                onPress= {()=>{alert("i am button")}}
-                color= "black"
+              drawerIcon:()=>(
+              <Image
+                source={PictogramHome}
+                style={{
+                  width: 40,
+                  height: 40,
+                }}
               />
               )
-          }}
-          />
-          <Stack.Screen 
-            name="User"
-            component={UserScreen}
-            initialParams={{
-              userIdx:10,
-              userName:"suki",
-              userFirstName: "lee"
             }}
-            options={{ // 모든 스크린에 적용
-              headerStyle:{
-                backgroundColor: "green",
-              },
-              headerTitleStyle:{
-                fontWeight: "bold",
-                color: "white"
-              }
-             }}
           />
-        </Stack.Navigator>
+          <Drawer.Screen
+            name="User"
+            component={DrawerUserScreen}
+          />
+        </Drawer.Navigator>
       </NavigationContainer>
     )
   }
